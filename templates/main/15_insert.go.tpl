@@ -153,7 +153,11 @@ func (o *{{$alias.UpSingular}}) Insert({{if .NoContext}}exec boil.Executor{{else
 	{{$colName := index .Table.PKey.Columns 0 -}}
 	{{- $col := .Table.GetColumn $colName -}}
 	{{- $colTitled := $colName | titleCase}}
-	o.{{$colTitled}} = {{$col.Type}}(lastID)
+	if lastID > 0 {
+		// if lastID > 0, it means it's auto-inc numeric PK and insert successfully, we use the lastID
+		// if not, probably it's NOT auto-inc and pk value is provided, then we don't change the pk field
+		o.{{$colTitled}} = {{$col.Type}}(lastID)
+	}
 	if lastID != 0 && len(cache.retMapping) == 1 && cache.retMapping[0] == {{$alias.DownSingular}}Mapping["{{$colName}}"] {
 		goto CacheNoHooks
 	}
