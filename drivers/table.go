@@ -73,7 +73,7 @@ func (t Table) CanLastInsertID() bool {
 		return false
 	}
 
-	return false
+	return true
 }
 
 func (t Table) CanSoftDelete(deleteColumn string) bool {
