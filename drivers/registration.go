@@ -2,6 +2,7 @@ package drivers
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -35,7 +36,8 @@ func GetDriver(name string) Interface {
 
 func register(name string, driver Interface) {
 	if _, ok := registeredDrivers[name]; ok {
-		panic(fmt.Sprintf("drivers: sqlboiler driver %s already loaded", name))
+		// panic(fmt.Sprintf("drivers: sqlboiler driver %s already loaded", name))
+		log.Println(fmt.Sprintf("Warning: drivers: sqlboiler driver %s already loaded", name))
 	}
 
 	registeredDrivers[name] = driver
